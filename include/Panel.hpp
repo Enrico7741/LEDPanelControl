@@ -4,14 +4,24 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#include "Panel.hpp"
+#ifndef PANEL_HPP
+#define PANEL_HPP
 
-#include <chrono>
-#include <thread>
+#include "led-matrix.h"
 
-int main(int argc, char **argv)
+using namespace rgb_matrix;
+
+class Panel
 {
-    Panel panel;
-    panel.initialize();
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-}
+public:
+    ~Panel();
+    bool initialize();
+private:
+    RGBMatrix *matrix;
+    FrameCanvas *frame;
+    const int cols{64};
+    const int rows{32};
+    int brightness{80};
+};
+
+#endif
