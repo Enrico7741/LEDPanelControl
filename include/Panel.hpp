@@ -7,21 +7,28 @@
 #ifndef PANEL_HPP
 #define PANEL_HPP
 
+#include "Animation.hpp"
+#include "SafeQueue.hpp"
 #include "led-matrix.h"
 
-using namespace rgb_matrix;
+#include "string"
 
 class Panel
 {
 public:
-    ~Panel();
-    bool initialize();
+  Panel(SafeQueue<std::string>& msgQueue) : messageQueue(msgQueue) {};
+  ~Panel();
+  bool initialize();
+  void run(std::vector<Animation>& animations);
+  rgb_matrix::FrameCanvas *frame;
+
 private:
-    RGBMatrix *matrix;
-    FrameCanvas *frame;
-    const int cols{64};
-    const int rows{32};
-    int brightness{80};
+  void display(const Animation& animation);
+  rgb_matrix::RGBMatrix *matrix;
+  const int cols{64};
+  const int rows{32};
+  const int brightness{100};
+  SafeQueue<std::string>& messageQueue;
 };
 
 #endif

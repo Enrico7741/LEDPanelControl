@@ -4,14 +4,20 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#include "Panel.hpp"
+#include "Controller.hpp"
 
-#include <chrono>
-#include <thread>
+#include <iostream>
 
 int main(int argc, char **argv)
 {
-    Panel panel;
-    panel.initialize();
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    Controller controller;
+    if(!controller.initialize())
+    {
+        std::cout << "Error: Couldn't initialize controller." << std::endl;
+        return false;
+    }
+
+    controller.start();
+
+    return true;
 }
