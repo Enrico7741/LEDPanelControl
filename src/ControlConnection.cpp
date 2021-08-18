@@ -33,23 +33,9 @@ void ControlConnection::waitForMessages()
         messageQueue.push(replyMessage);
 
         std::string msgToClient;
-        if(replyMessage.compare("status") == 0)
-        {
-            msgToClient = "on 80";
-        }
-        else if (replyMessage.compare("turn off") == 0)
-        {
-            msgToClient = "turned off";
-        }
-        else if (replyMessage.compare("turn on") == 0)
-        {
-            msgToClient = "turned on";
-        }
-        else
-        {
-            msgToClient = replyMessage;
-        }
 
+        msgToClient = replyMessage;
+        
         //  Send reply back to client
         zmq::message_t reply(msgToClient.size());
         memcpy((void *) reply.data(), (msgToClient.c_str()), msgToClient.size());

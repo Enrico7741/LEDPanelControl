@@ -11,20 +11,29 @@
 #include "content-streamer.h"
 #include <Magick++.h>
 #include <magick/image.h>
+#include <array>
+
+struct Pixel
+{
+  uint8_t R{};
+  uint8_t G{};
+  uint8_t B{};
+};
+
+struct Frame
+{
+  std::array<std::array<Pixel, 64>, 64> pixel{};
+};
 
 class Animation
 {
 public:
-  Animation(const std::string& path, rgb_matrix::FrameCanvas *frame);
+  Animation(const std::string& path);
   int animationDurationMs{5000};
   int animationDelayMs{45};
-  rgb_matrix::StreamIO *contentStream;
+  std::vector<Frame> animation;
+  Frame& getNextFrame();
 private:
-    bool LoadAnimation(const std::string& image, std::vector<Magick::Image>& imageSequence);
-    void StoreInStream(const Magick::Image &img, int delay_time_us,
-                          bool do_center,
-                          rgb_matrix::FrameCanvas *scratch,
-                          rgb_matrix::StreamWriter *output);
 };
 
 #endif

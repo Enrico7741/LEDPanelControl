@@ -7,14 +7,13 @@
 #include <stdio.h>
 #include <cstring>
 
-bool ImageManager::initialize(rgb_matrix::FrameCanvas *frame)
+bool ImageManager::initialize()
 {
-    readDirectory(pokemonDir, pokemons, frame);
-    readDirectory(otherDir, other, frame);
+    readDirectory(imageDir, images);
     return true;
 }
 
-void ImageManager::readDirectory(const std::string& dir, std::vector<Animation>& animations, rgb_matrix::FrameCanvas *frame)
+void ImageManager::readDirectory(const std::string& dir, std::vector<Animation>& animations)
 {
     DIR* dirp = opendir(dir.c_str());
     struct dirent * dp;
@@ -22,7 +21,7 @@ void ImageManager::readDirectory(const std::string& dir, std::vector<Animation>&
     {
         if(dp->d_name[0] != '.')
         {
-            animations.push_back(Animation(dir + dp->d_name, frame));
+            animations.push_back(Animation(dir + dp->d_name));
         }
     }
     closedir(dirp);
@@ -30,15 +29,28 @@ void ImageManager::readDirectory(const std::string& dir, std::vector<Animation>&
 
 Animation& ImageManager::getImage()
 {
-    static int i = 0;
-    if (i < pokemons.size())
+    if (index < images.size() - 1)
     {
-        return pokemons[i++];
+        index++;
     }
     else
     {
-        i = 0;
-        return pokemons[i++];
+        index = 0;
     }
 
+    return images[index];
+}
+
+Animation& ImageManager::getPrevImage()
+{
+    if (index > 0)
+    {
+        index--;
+    }
+    else
+    {
+        index = images.size() - 1;
+    }
+
+    return images[index];
 }

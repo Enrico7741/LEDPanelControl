@@ -15,14 +15,14 @@
 class ImageManager
 {
 private:
-    void readDirectory(const std::string& dir, std::vector<Animation>& animations, rgb_matrix::FrameCanvas *frame);
+    void readDirectory(const std::string& dir, std::vector<Animation>& animations);
+    int index = 0;
 public:
-    bool initialize(rgb_matrix::FrameCanvas *frame);
+    bool initialize();
     Animation& getImage();
-    std::string pokemonDir{"/home/pi/Documents/LEDPanelControl/bin/pokemon/"};
-    std::vector<Animation> pokemons;
-    std::string otherDir{"/home/pi/Documents/LEDPanelControl/bin/other/"};
-    std::vector<Animation> other;
+    Animation& getPrevImage();
+    std::string imageDir{"/home/pi/Documents/LEDPanelControl/bin/images/"};
+    std::vector<Animation> images;
 };
 
 #endif

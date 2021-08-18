@@ -32,7 +32,6 @@ bool Panel::initialize()
 
     rgb_matrix::RuntimeOptions runtime_defaults;
     runtime_defaults.drop_privileges = 1;
-    runtime_defaults.gpio_slowdown = 4;
     runtime_defaults.do_gpio_init = true;
 
     matrix = rgb_matrix::RGBMatrix::CreateFromOptions(my_defaults, runtime_defaults);
@@ -54,43 +53,76 @@ bool Panel::initialize()
     return true;
 }
 
-void Panel::run(std::vector<Animation>& animations)
+void Panel::run(ImageManager& imageManager)
 {
-    for(int i = 0; i < 20; i++)
+    using namespace std::chrono;
+
+    auto running = true;
+
+    const auto STATUS = '0';
+    const auto TURNON = '1';
+    const auto TURNOFF = '2';
+    const auto BRIGHTNESS = '3';
+    const auto NEXT = '4';
+    const auto PREV = '5';
+
+    auto animation = imageManager.getImage();
+    auto endTime = steady_clock::now() + milliseconds(animation.animationDurationMs);
+
+    while(true)
     {
-        display(animations[0]);
+        std::string str;
+        if(messageQueue.pop(str))
+        {
+            if(str[0] == STATUS)
+            {
+
+            }
+            else if(str[0] == TURNON)
+            {
+                running = true;
+            }
+            else if(str[0] == TURNOFF)
+            {
+                matrix->Clear();
+                running = false;
+            }
+            else if(str[0] == BRIGHTNESS)
+            {   
+                matrix->SetBrightness(std::stoi(str.substr(2)));
+            }
+            else if(str[0] == NEXT)
+            {
+                endTime = steady_clock::now() + milliseconds(animation.animationDurationMs);
+                animation = imageManager.getImage();
+            }
+            else if(str[0] == PREV)
+            {
+                endTime = steady_clock::now() + milliseconds(animation.animationDurationMs);
+                animation = imageManager.getPrevImage();
+            }
+        }
+
+        if (running)
+        {
+            //if (duration_cast<std::chrono::microseconds>(endTime - steady_clock::now()).count() < animation.animationDurationMs)
+            //{
+            //    animation = imageManager.getImage();
+            //}
+            displayFrame(animation.getNextFrame());
+            frame = matrix->SwapOnVSync(frame);
+            std::this_thread::sleep_for(milliseconds(animation.animationDelayMs));
+        }
     }
 }
 
-void Panel::display(const Animation& animation)
+void Panel::displayFrame(Frame& animationFrame)
 {
-    using namespace std::chrono;
-    
-    rgb_matrix::StreamReader reader(animation.contentStream);
-
-    const auto endTime = steady_clock::now() + milliseconds(animation.animationDurationMs);
-
-    while (steady_clock::now() < endTime)
+    for (size_t y = 0; y < 64; ++y)
     {
-        uint32_t delayUs = 0;
-        while (steady_clock::now() <= endTime && reader.GetNext(frame, &delayUs))
+        for (size_t x = 0; x < 64; ++x)
         {
-            frame = matrix->SwapOnVSync(frame);
-            std::string message;
-            if (messageQueue.pop(message))
-            {
-                if (message.compare("status") != 0)
-                {
-                    //std::cout << std::stoi(message) << std::endl;
-                    frame->~Canvas();
-                    frame = matrix->CreateFrameCanvas();
-
-                    matrix->SetBrightness(30);//static_cast<uint8_t>(std::stoi(message)));
-                    std::cout << matrix->brightness() << std::endl;
-                }
-            }
-            std::this_thread::sleep_for(milliseconds(animation.animationDelayMs));
+            frame->SetPixel(x, y, animationFrame.pixel[x][y].R, animationFrame.pixel[x][y].G, animationFrame.pixel[x][y].B);
         }
-        reader.Rewind();
     }
 }

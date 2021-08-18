@@ -9,6 +9,7 @@
 
 #include "Animation.hpp"
 #include "SafeQueue.hpp"
+#include "ImageManager.hpp"
 #include "led-matrix.h"
 
 #include "string"
@@ -19,16 +20,16 @@ public:
   Panel(SafeQueue<std::string>& msgQueue) : messageQueue(msgQueue) {};
   ~Panel();
   bool initialize();
-  void run(std::vector<Animation>& animations);
+  void run(ImageManager& imageManager);
   rgb_matrix::FrameCanvas *frame;
 
 private:
-  void display(const Animation& animation);
   rgb_matrix::RGBMatrix *matrix;
   const int cols{64};
-  const int rows{32};
+  const int rows{64};
   const int brightness{100};
   SafeQueue<std::string>& messageQueue;
+  void displayFrame(Frame& animationFrame);
 };
 
 #endif

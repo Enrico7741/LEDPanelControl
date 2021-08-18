@@ -20,13 +20,13 @@ Controller::~Controller()
 
 bool Controller::initialize()
 {
-    return panel->initialize() && imageManager->initialize(panel->frame);
+    return panel->initialize() && imageManager->initialize();
 }
 
 void Controller::start()
 {
     std::thread controlThread(&ControlConnection::waitForMessages, controlConnection);
-    std::thread panelThread(&Panel::run, panel, std::ref(imageManager->other));
+    std::thread panelThread(&Panel::run, panel, std::ref(*imageManager));
     controlThread.join();
     panelThread.join();
 }
