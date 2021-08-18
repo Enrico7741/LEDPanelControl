@@ -18,6 +18,7 @@ private:
     SafeQueue<std::string> messages{};
     Panel* panel;
     ControlConnection* controlConnection;
+    
 public:
     Controller();
     ~Controller();

@@ -6,10 +6,10 @@
 
 #include "ControlConnection.hpp"
 
-#include <zmq.hpp>
-#include <string>
-#include <iostream>
 #include <queue>
+#include <string>
+#include <zmq.hpp>
+#include <iostream>
 
 void ControlConnection::waitForMessages()
 {

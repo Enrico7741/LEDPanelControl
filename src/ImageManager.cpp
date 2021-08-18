@@ -6,12 +6,12 @@
 
 #include "ImageManager.hpp"
 
-#include <experimental/filesystem>
-#include <iostream>
-#include <sys/types.h>
-#include <dirent.h>
 #include <stdio.h>
+#include <dirent.h>
+#include <sys/types.h>
 #include <cstring>
+#include <iostream>
+#include <experimental/filesystem>
 
 bool ImageManager::initialize()
 {

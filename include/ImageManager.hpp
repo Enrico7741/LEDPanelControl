@@ -7,16 +7,17 @@
 #ifndef IMAGEMANAGER_HPP
 #define IMAGEMANAGER_HPP
 
+#include "Animation.hpp"
+
 #include <vector>
 #include <string>
-
-#include "Animation.hpp"
 
 class ImageManager
 {
 private:
     void readDirectory(const std::string& dir, std::vector<Animation>& animations);
     int index = 0;
+
 public:
     bool initialize();
     Animation& getImage();

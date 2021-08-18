@@ -17,6 +17,7 @@ class ControlConnection
 public:
     ControlConnection(SafeQueue<std::string>& msgQueue) : messageQueue(msgQueue) {}
     void waitForMessages();
+    
 private:
     std::string address{"tcp://*:5555"};
     SafeQueue<std::string>& messageQueue;
