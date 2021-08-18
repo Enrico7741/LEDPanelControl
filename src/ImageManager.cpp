@@ -1,3 +1,9 @@
+//--------------------------------------------------------------------------------------------------
+// LED-Panel-Control
+// Copyright (C) 2020 Enrico Schörnick
+// Licensed under the MIT License
+//--------------------------------------------------------------------------------------------------
+
 #include "ImageManager.hpp"
 
 #include <experimental/filesystem>
