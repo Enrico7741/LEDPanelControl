@@ -13,18 +13,18 @@
 
 class Controller
 {
-private:
-    ImageManager* imageManager;
-    SafeQueue<std::string> messages{};
-    Panel* panel;
-    ControlConnection* controlConnection;
-    
 public:
     Controller();
     ~Controller();
     bool initialize();
     void start();
     void display();
+
+private:
+    ImageManager* imageManager;
+    SafeQueue<std::string> messages{};
+    Panel* panel;
+    ControlConnection* controlConnection;
 };
 
 #endif

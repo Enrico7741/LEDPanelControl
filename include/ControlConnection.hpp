@@ -11,14 +11,18 @@
 
 #include <queue>
 #include <string>
+#include <zmq.hpp>
 
 class ControlConnection
 {
 public:
     ControlConnection(SafeQueue<std::string>& msgQueue) : messageQueue(msgQueue) {}
+    bool initialize();
     void waitForMessages();
     
 private:
+    zmq::socket_t socket;
+    zmq::context_t context;
     std::string address{"tcp://*:5555"};
     SafeQueue<std::string>& messageQueue;
 };

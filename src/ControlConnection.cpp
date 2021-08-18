@@ -11,15 +11,21 @@
 #include <zmq.hpp>
 #include <iostream>
 
-void ControlConnection::waitForMessages()
+bool ControlConnection::initialize()
 {
-    // Prepare a context and socket
-    zmq::context_t context;
-    zmq::socket_t socket(context, ZMQ_REP);
+    socket = zmq::socket_t(context, ZMQ_REP);
+    if (socket == nullptr)
+    {
+        return false;
+    }
 
-    // Listen on port 5555 for a tcp connection
     socket.bind(address);
 
+    return true;
+}
+
+void ControlConnection::waitForMessages()
+{
     while (true)
     {
         // Request to handle
@@ -41,11 +47,4 @@ void ControlConnection::waitForMessages()
         memcpy((void *) reply.data(), (msgToClient.c_str()), msgToClient.size());
         socket.send(reply);
     }
-
-    // Unbind from address
-    socket.unbind(address);
-
-    // Destroy context
-    context.shutdown();
-    context.close();
 }

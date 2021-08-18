@@ -26,7 +26,7 @@ Controller::~Controller()
 
 bool Controller::initialize()
 {
-    return panel->initialize() && imageManager->initialize();
+    return panel->initialize() && imageManager->initialize() && controlConnection->initialize();
 }
 
 void Controller::start()
