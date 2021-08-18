@@ -11,6 +11,8 @@
 #include <zmq.hpp>
 #include <iostream>
 
+#define ZMQ_CPP11
+
 bool ControlConnection::initialize()
 {
     socket = zmq::socket_t(context, ZMQ_REP);
@@ -26,25 +28,19 @@ bool ControlConnection::initialize()
 
 void ControlConnection::waitForMessages()
 {
+    // Request to handle
+    zmq::message_t request;
+
     while (true)
-    {
-        // Request to handle
-        zmq::message_t request;
-
+    { 
         // Wait for the next request
-        socket.recv(&request);
+        socket.recv(request);
         
-        auto replyMessage = std::string(static_cast<char *>(request.data()), request.size());
-
-        messageQueue.push(replyMessage);
-
-        std::string msgToClient;
-
-        msgToClient = replyMessage;
+        auto incomingMsg = std::string(static_cast<char *>(request.data()), request.size());
+        messageQueue.push(incomingMsg);
         
-        //  Send reply back to client
-        zmq::message_t reply(msgToClient.size());
-        memcpy((void *) reply.data(), (msgToClient.c_str()), msgToClient.size());
-        socket.send(reply);
+        // Send reply back to client
+        zmq::message_t reply(request.data(), request.size());
+        socket.send(reply, zmq::send_flags::none);
     }
 }
