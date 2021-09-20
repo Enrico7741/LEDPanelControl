@@ -8,7 +8,7 @@
 #define CONTROLLER_HPP
 
 #include "Panel.hpp"
-#include "ImageManager.hpp"
+#include "SceneCreator.hpp"
 #include "ControlConnection.hpp"
 
 class Controller
@@ -18,10 +18,9 @@ public:
     ~Controller();
     bool initialize();
     void start();
-    void display();
 
 private:
-    ImageManager* imageManager;
+    SceneCreator* sceneCreator;
     SafeQueue<std::string> messages{};
     Panel* panel;
     ControlConnection* controlConnection;

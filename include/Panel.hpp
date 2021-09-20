@@ -7,9 +7,8 @@
 #ifndef PANEL_HPP
 #define PANEL_HPP
 
-#include "Animation.hpp"
 #include "SafeQueue.hpp"
-#include "ImageManager.hpp"
+#include "SceneCreator.hpp"
 #include "led-matrix.h"
 
 #include "string"
@@ -20,7 +19,7 @@ public:
   Panel(SafeQueue<std::string>& msgQueue) : messageQueue(msgQueue) {};
   ~Panel();
   bool initialize();
-  void run(ImageManager& imageManager);
+  void run(SceneCreator& sceneCreator);
   rgb_matrix::FrameCanvas *frame;
 
 private:
@@ -29,7 +28,7 @@ private:
   const int rows{64};
   const int brightness{100};
   SafeQueue<std::string>& messageQueue;
-  void displayFrame(Frame& animationFrame);
+  void displayFrame(SceneCreator& sceneCreator);
 };
 
 #endif

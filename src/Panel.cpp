@@ -21,8 +21,6 @@ Panel::~Panel()
 
 bool Panel::initialize()
 {
-    Magick::InitializeMagick(NULL);
-
     rgb_matrix::RGBMatrix::Options my_defaults;
     //my_defaults.show_refresh_rate = true;
     my_defaults.brightness = brightness;
@@ -53,8 +51,11 @@ bool Panel::initialize()
     return true;
 }
 
-void Panel::run(ImageManager& imageManager)
+void Panel::run(SceneCreator& sceneCreator)
 {
+
+
+    /*
     using namespace std::chrono;
 
     auto running = true;
@@ -114,15 +115,28 @@ void Panel::run(ImageManager& imageManager)
             std::this_thread::sleep_for(milliseconds(animation.animationDelayMs));
         }
     }
+        */
+        using namespace std::chrono_literals;
+
+        while(true)
+        {
+        displayFrame(sceneCreator);
+        frame = matrix->SwapOnVSync(frame);
+        std::this_thread::sleep_for(50ms);
+
+        }
+
 }
 
-void Panel::displayFrame(Frame& animationFrame)
+void Panel::displayFrame(SceneCreator& sceneCreator)
 {
+    const auto f = sceneCreator.scene->getNextFrame();
     for (size_t y = 0; y < 64; ++y)
     {
         for (size_t x = 0; x < 64; ++x)
         {
-            frame->SetPixel(x, y, animationFrame.pixel[x][y].R, animationFrame.pixel[x][y].G, animationFrame.pixel[x][y].B);
+            frame->SetPixel(x,y, f.pixel[x][y].R, f.pixel[x][y].G, f.pixel[x][y].B);
+            //frame->SetPixel(x, y, animationFrame.pixel[x][y].R, animationFrame.pixel[x][y].G, animationFrame.pixel[x][y].B);
         }
     }
 }

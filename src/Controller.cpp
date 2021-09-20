@@ -13,26 +13,27 @@
 Controller::Controller()
 {
     panel = new Panel(messages);
-    imageManager = new ImageManager();
+    sceneCreator = new SceneCreator();
     controlConnection = new ControlConnection(messages);
 }
 
 Controller::~Controller()
 {
     delete panel;
-    delete imageManager;
+    delete sceneCreator;
     delete controlConnection;
 }
 
 bool Controller::initialize()
 {
-    return panel->initialize() && imageManager->initialize() && controlConnection->initialize();
+    sceneCreator->createMarioKartScene();
+    return panel->initialize() && controlConnection->initialize();
 }
 
 void Controller::start()
 {
     std::thread controlThread(&ControlConnection::waitForMessages, controlConnection);
-    std::thread panelThread(&Panel::run, panel, std::ref(*imageManager));
+    std::thread panelThread(&Panel::run, panel, std::ref(*sceneCreator));
     controlThread.join();
     panelThread.join();
 }
