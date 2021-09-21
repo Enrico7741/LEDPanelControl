@@ -9,11 +9,13 @@
 #include <cstring>
 #include <iostream>
 
-Scene::Scene(Background* background, Clouds* clouds, Mario* character)
+Scene::Scene(Background* background, Clouds* clouds, Mario* character, BottomMisc* bottomMisc, TopMisc* topMisc)
 {
     this->background = background;
     this->clouds = clouds;
     this->character = character;
+    this->bottomMisc = bottomMisc;
+    this->topMisc = topMisc;
 }
 
 void Scene::drawBackground()
@@ -26,17 +28,28 @@ void Scene::drawClouds()
     clouds->redraw(frame);
 }
 
+void Scene::drawTopMisc()
+{
+    topMisc->redraw(frame);
+}
+
 void Scene::drawCharacter()
 {
     character->redraw(frame);
+}
+
+void Scene::drawBottomMisc()
+{
+    bottomMisc->redraw(frame);
 }
 
 Frame Scene::getNextFrame()
 {
     drawBackground();
     drawClouds();
-    //drawMics();
+    drawTopMisc();
     drawCharacter();
+    drawBottomMisc();
     
     return frame;
 }

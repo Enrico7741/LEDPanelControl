@@ -9,20 +9,11 @@
 
 #include "IDrawable.hpp"
 
-class Background : public IDrawable
+class Background
 {
 public:
     Background(Frame background);
-
-    //explicit Background(std::shared_ptr<RenderManager> renderManager) : ISection(std::move(renderManager)){};
-
-    // Background should be unique and local -- no copy/move operators
-    Background(const Background &) = delete;
-    Background &operator=(const Background &) = delete;
-    Background(Background &&) noexcept = delete;
-    Background &operator=(Background &&) noexcept = delete;
-
-    void redraw(Frame &frame) override;
+    void redraw(Frame &frame);
 private:
     Frame background;
 };

@@ -61,5 +61,53 @@ void SceneCreator::createMarioKartScene()
         }
     }
 
-    this->scene = new Scene(new Background(background), new Clouds(clouds), new Mario(marioFrame));
+    PlantBig plantBigOpen;
+    Magick::Image pbOpen("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigOpen.png");
+    for (size_t y = 0; y < 12; ++y)
+    {
+        for (size_t x = 0; x < 11; ++x)
+        {
+            const Magick::Color &c = pbOpen.pixelColor(x, y);
+            if (c.alphaQuantum() < 256)
+            {
+                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
+                ScaleQuantumToChar(c.blueQuantum())};    
+                plantBigOpen.pixel[x][y] = p;
+            }
+        }
+    }
+
+    PlantBig plantBigClosed;
+    Magick::Image pbClosed("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigClosed.png");
+    for (size_t y = 0; y < 12; ++y)
+    {
+        for (size_t x = 0; x < 11; ++x)
+        {
+            const Magick::Color &c = pbClosed.pixelColor(x, y);
+            if (c.alphaQuantum() < 256)
+            {
+                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
+                ScaleQuantumToChar(c.blueQuantum())};    
+                plantBigClosed.pixel[x][y] = p;
+            }
+        }
+    }
+
+    Tunnel tunnel;
+    Magick::Image tunnelImage("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigClosed.png");
+    for (size_t y = 0; y < 18; ++y)
+    {
+        for (size_t x = 0; x < 14; ++x)
+        {
+            const Magick::Color &c = tunnelImage.pixelColor(x, y);
+            if (c.alphaQuantum() < 256)
+            {
+                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
+                ScaleQuantumToChar(c.blueQuantum())};    
+                tunnel.pixel[x][y] = p;
+            }
+        }
+    }
+
+    this->scene = new Scene(new Background(background), new Clouds(clouds), new Mario(marioFrame), new BottomMisc(plantBigOpen, plantBigClosed), new TopMisc(tunnel));
 }

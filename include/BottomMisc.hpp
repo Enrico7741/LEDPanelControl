@@ -4,28 +4,24 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef MARIO_HPP
-#define MARIO_HPP
+#ifndef BOTTOMMISC_HPP
+#define BOTTOMMISC_HPP
 
 #include "IDrawable.hpp"
 
-class Mario
+class BottomMisc
 {
 public:
-    Mario(CharacterFrame mario);
+    BottomMisc(PlantBig plantBigOpen, PlantBig plantBigClosed);
     void redraw(Frame &frame);
 private:
-    CharacterFrame mario;
-    const int height = 28;
-    const int bottomLine = 54;
-    const int topLine = 40;
-    const int lowerLimit = bottomLine - height;
-    const int upperLimit = topLine - height;
-
-    int posX;
-    int posY = lowerLimit;
-
-    bool up = true;
+    PlantBig plantBigOpen;
+    PlantBig plantBigClosed;
+    bool isOpen = true;
+    int lastSwitch = 0;
+    const int bottomLine = 62;
+    const int posY = bottomLine - 12;
+    int posX = 63;
 };
 
 #endif

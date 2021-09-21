@@ -4,28 +4,21 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef MARIO_HPP
-#define MARIO_HPP
+#ifndef TOPMISC_HPP
+#define TOPMISC_HPP
 
 #include "IDrawable.hpp"
 
-class Mario
+class TopMisc
 {
 public:
-    Mario(CharacterFrame mario);
+    TopMisc(Tunnel tunnel);
     void redraw(Frame &frame);
 private:
-    CharacterFrame mario;
-    const int height = 28;
-    const int bottomLine = 54;
-    const int topLine = 40;
-    const int lowerLimit = bottomLine - height;
-    const int upperLimit = topLine - height;
-
-    int posX;
-    int posY = lowerLimit;
-
-    bool up = true;
+    Tunnel tunnel;
+    const int bottomLine = 30;
+    const int posY = bottomLine - 14;
+    int posX = 20;
 };
 
 #endif

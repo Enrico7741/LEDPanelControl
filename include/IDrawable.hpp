@@ -27,19 +27,14 @@ struct CharacterFrame
   std::array<std::array<Pixel, 30>, 28> pixel{};
 };
 
-class IDrawable
+struct PlantBig
 {
-public:
-    virtual ~IDrawable() = default;
-    virtual void redraw(Frame &frame) = 0;
+  std::array<std::array<Pixel, 12>, 11> pixel{};
+};
 
-protected:
-    //explicit IDrawable(std::shared_ptr<RenderManager> renderManager) : renderManager{std::move(renderManager)}{};
-    IDrawable() = default;
-    IDrawable(const IDrawable &) = default;
-    IDrawable &operator=(const IDrawable &) = default;
-    IDrawable(IDrawable &&) noexcept = default;
-    IDrawable &operator=(IDrawable &&) noexcept = default;
+struct Tunnel
+{
+  std::array<std::array<Pixel, 18>, 14> pixel{};
 };
 
 #endif

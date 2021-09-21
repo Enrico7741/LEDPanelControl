@@ -9,20 +9,11 @@
 
 #include "IDrawable.hpp"
 
-class Clouds : public IDrawable
+class Clouds
 {
 public:
     Clouds(Frame clouds);
-
-    //explicit Clouds(std::shared_ptr<RenderManager> renderManager) : ISection(std::move(renderManager)){};
-
-    // Clouds should be unique and local -- no copy/move operators
-    Clouds(const Clouds &) = delete;
-    Clouds &operator=(const Clouds &) = delete;
-    Clouds(Clouds &&) noexcept = delete;
-    Clouds &operator=(Clouds &&) noexcept = delete;
-
-    void redraw(Frame &frame) override;
+    void redraw(Frame &frame);
 private:
     Frame clouds;
 };

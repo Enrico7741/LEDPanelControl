@@ -10,6 +10,8 @@
 #include "Background.hpp"
 #include "Clouds.hpp"
 #include "Mario.hpp"
+#include "BottomMisc.hpp"
+#include "TopMisc.hpp"
 
 #include <stdint.h>
 #include <array>
@@ -17,16 +19,20 @@
 class Scene
 {
 public:
-    Scene(Background* background, Clouds* clouds, Mario* character);
+    Scene(Background* background, Clouds* clouds, Mario* character, BottomMisc* bottomMisc, TopMisc* topMisc);
     Frame getNextFrame();
 private:
     Frame frame;
-    IDrawable* background;
-    IDrawable* clouds;
+    Background* background;
+    Clouds* clouds;
     Mario* character;
+    BottomMisc* bottomMisc;
+    TopMisc* topMisc;
     void drawBackground();
     void drawClouds();
+    void drawTopMisc();
     void drawCharacter();
+    void drawBottomMisc();
 };
 
 #endif
