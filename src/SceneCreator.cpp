@@ -9,10 +9,15 @@
 #include <Magick++.h>
 #include <magick/image.h>
 
-void SceneCreator::createMarioKartScene()
+#include <iostream>
+
+SceneCreator::SceneCreator()
 {
     Magick::InitializeMagick(NULL);
+}
 
+void SceneCreator::createMarioKartScene()
+{
     Frame background;
     Magick::Image bg("/home/pi/Documents/LEDPanelControl/bin/sprites/backgrounds/background.png");
     for (size_t y = 0; y < 64; ++y)
@@ -109,5 +114,37 @@ void SceneCreator::createMarioKartScene()
         }
     }
 
-    this->scene = new Scene(new Background(background), new Clouds(clouds), new Mario(marioFrame), new BottomMisc(plantBigOpen, plantBigClosed), new TopMisc(tunnel));
+PlantSmall smallPlant;
+    Magick::Image smallPlantImage("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallOpen.png");
+    for (size_t y = 0; y < 11; ++y)
+    {
+        for (size_t x = 0; x < 11; ++x)
+        {
+            const Magick::Color &c = smallPlantImage.pixelColor(x, y);
+            if (c.alphaQuantum() < 256)
+            {
+                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
+                ScaleQuantumToChar(c.blueQuantum())};    
+                smallPlant.pixel[x][y] = p;
+            }
+        }
+    }
+
+PlantSmall smallPlantClosed;
+    Magick::Image smallPlantClosedImage("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallClosed.png");
+    for (size_t y = 0; y < 11; ++y)
+    {
+        for (size_t x = 0; x < 11; ++x)
+        {
+            const Magick::Color &c = smallPlantClosedImage.pixelColor(x, y);
+            if (c.alphaQuantum() < 256)
+            {
+                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
+                ScaleQuantumToChar(c.blueQuantum())};    
+                smallPlantClosed.pixel[x][y] = p;
+            }
+        }
+    }
+
+    this->scene = new Scene(new Background(background), new Clouds(clouds), new Mario(marioFrame), new BottomMisc(plantBigOpen, plantBigClosed), new TopMisc(tunnel, smallPlant, smallPlantClosed));
 }

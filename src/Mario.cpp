@@ -13,7 +13,23 @@ Mario::Mario(CharacterFrame mario)
 
 void Mario::redraw(Frame &frame)
 {
-    if(up)
+   static int onEdgeCounter = 15;
+    static bool onEdge = true;
+    static int widthOffset = 18;
+if(onEdge)
+{
+ onEdgeCounter--;
+if(onEdgeCounter == 0)
+{
+onEdge = false;
+onEdgeCounter = 4;
+}
+
+}
+else
+{    
+
+if(up)
     {
         if(posY > upperLimit)
         {
@@ -21,6 +37,7 @@ void Mario::redraw(Frame &frame)
             if(posY == upperLimit)
             {
                 up = false;
+		onEdge = true;
             }
         }
     }
@@ -32,11 +49,13 @@ void Mario::redraw(Frame &frame)
             if(posY == lowerLimit)
             {
                 up = true;
+		onEdge = true;
             }
         }
     }
+}
+
     const int heigthOffset = upperLimit;
-    const int widthOffset = 18;
 
     for(int x = 0; x < 28; x++)
     {
@@ -52,4 +71,5 @@ void Mario::redraw(Frame &frame)
             }
         }
     }
+
 }

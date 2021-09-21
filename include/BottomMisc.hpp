@@ -19,7 +19,7 @@ private:
     PlantBig plantBigClosed;
     bool isOpen = true;
     int lastSwitch = 0;
-    const int bottomLine = 62;
+    const int bottomLine = 63;
     const int posY = bottomLine - 12;
     int posX = 63;
 };

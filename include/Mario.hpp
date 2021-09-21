@@ -17,8 +17,8 @@ public:
 private:
     CharacterFrame mario;
     const int height = 28;
-    const int bottomLine = 54;
-    const int topLine = 40;
+    const int bottomLine = 53;
+    const int topLine = 41;
     const int lowerLimit = bottomLine - height;
     const int upperLimit = topLine - height;
 

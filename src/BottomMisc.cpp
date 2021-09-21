@@ -6,6 +6,8 @@
 
 #include "BottomMisc.hpp"
 
+#include <iostream>
+
 BottomMisc::BottomMisc(PlantBig plantBigOpen, PlantBig plantBigClosed)
 {
     this->plantBigOpen = plantBigOpen;
@@ -20,9 +22,9 @@ void BottomMisc::redraw(Frame &frame)
         {
             for(int y = 0; y < 12; y++)
             {
-                if (plantBigOpen.pixel[x][y].R != 255)
+                if (plantBigOpen.pixel[x][y].B != 150 && posX + x < 64 && posX + x >= 0)
                 {
-                    frame.pixel[posX + x][posY + y].R = plantBigOpen.pixel[x][y].R;
+			frame.pixel[posX + x][posY + y].R = plantBigOpen.pixel[x][y].R;
                     frame.pixel[posX + x][posY + y].G = plantBigOpen.pixel[x][y].G;
                     frame.pixel[posX + x][posY + y].B = plantBigOpen.pixel[x][y].B;
                 }
@@ -37,7 +39,7 @@ void BottomMisc::redraw(Frame &frame)
             {
                 for(int y = 0; y < 12; y++)
                 {
-                    if (plantBigClosed.pixel[x][y].R != 255)
+                    if (plantBigClosed.pixel[x][y].B != 150 && posX + x < 64 && posX + x >= 0)
                     {
                         frame.pixel[posX + x][posY + y].R = plantBigClosed.pixel[x][y].R;
                         frame.pixel[posX + x][posY + y].G = plantBigClosed.pixel[x][y].G;
@@ -52,7 +54,8 @@ void BottomMisc::redraw(Frame &frame)
 
     if(lastSwitch > 3)
     {
-        isOpen != isOpen;
+        isOpen = !isOpen;
+lastSwitch = 0;
     }
 
     posX--;

@@ -12,13 +12,19 @@
 class TopMisc
 {
 public:
-    TopMisc(Tunnel tunnel);
+    TopMisc(Tunnel tunnel, PlantSmall plantOpen, PlantSmall plantClosed);
     void redraw(Frame &frame);
 private:
     Tunnel tunnel;
-    const int bottomLine = 30;
-    const int posY = bottomLine - 14;
+    PlantSmall plantOpen;
+    PlantSmall plantClosed;
+    const int bottomLine = 26;
+    const int posY = bottomLine - 13;
     int posX = 20;
+   int posXPlant = 45;
+   const int posYPlant = bottomLine - 5;
+   bool isOpen = true;
+   int lastSwitch = 0;
 };
 
 #endif

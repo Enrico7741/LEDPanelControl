@@ -32,8 +32,13 @@ struct PlantBig
   std::array<std::array<Pixel, 12>, 11> pixel{};
 };
 
-struct Tunnel
+struct PlantSmall
 {
+  std::array<std::array<Pixel, 11>, 11> pixel{};
+};
+
+
+struct Tunnel {
   std::array<std::array<Pixel, 18>, 14> pixel{};
 };
 

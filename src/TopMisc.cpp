@@ -6,9 +6,11 @@
 
 #include "TopMisc.hpp"
 
-TopMisc::TopMisc(Tunnel tunnel)
+TopMisc::TopMisc(Tunnel tunnel, PlantSmall plantOpen, PlantSmall plantClosed)
 {
     this->tunnel = tunnel;
+    this->plantOpen = plantOpen;
+    this->plantClosed = plantClosed;
 }
 
 void TopMisc::redraw(Frame &frame)
@@ -17,11 +19,11 @@ void TopMisc::redraw(Frame &frame)
         {
             for(int y = 0; y < 18; y++)
             {
-                if (plantBigOpen.pixel[x][y].R != 255)
+                if (tunnel.pixel[x][y].R != 160 && posX + x < 64 && posX + x >= 0)
                 {
-                    frame.pixel[posX + x][posY + y].R = plantBigOpen.pixel[x][y].R;
-                    frame.pixel[posX + x][posY + y].G = plantBigOpen.pixel[x][y].G;
-                    frame.pixel[posX + x][posY + y].B = plantBigOpen.pixel[x][y].B;
+                    frame.pixel[posX + x][posY + y].R = tunnel.pixel[x][y].R;
+                    frame.pixel[posX + x][posY + y].G = tunnel.pixel[x][y].G;
+                    frame.pixel[posX + x][posY + y].B = tunnel.pixel[x][y].B;
                 }
             }
         }
@@ -31,4 +33,52 @@ void TopMisc::redraw(Frame &frame)
     {
         posX = 63;
     }
+
+
+if(isOpen)
+{
+    for(int x = 0; x < 11; x++)
+        {
+            for(int y = 0; y < 11; y++)
+            {
+                if (plantOpen.pixel[x][y].B != 150 && posXPlant + x < 64 && posXPlant + x >= 0)
+                {
+                    frame.pixel[posXPlant + x][posYPlant + y].R = plantOpen.pixel[x][y].R;
+                    frame.pixel[posXPlant + x][posYPlant + y].G = plantOpen.pixel[x][y].G;
+                    frame.pixel[posXPlant + x][posYPlant + y].B = plantOpen.pixel[x][y].B;
+                }
+            }
+        }
+}
+else
+{
+for(int x = 0; x < 11; x++)
+        {
+            for(int y = 0; y < 11; y++)
+            {
+                if (plantClosed.pixel[x][y].B != 150 && posXPlant + x < 64 && posXPlant + x >= 0)
+                {
+                    frame.pixel[posXPlant + x][posYPlant + y].R = plantClosed.pixel[x][y].R;
+                    frame.pixel[posXPlant + x][posYPlant + y].G = plantClosed.pixel[x][y].G;
+                    frame.pixel[posXPlant + x][posYPlant + y].B = plantClosed.pixel[x][y].B;
+                }
+            }
+        }
+}
+
+    posXPlant--;
+    if (posXPlant < -16)
+    {
+        posXPlant = 63;
+    }
+
+	lastSwitch++;
+
+    if(lastSwitch > 4)
+    {
+        isOpen = !isOpen;
+lastSwitch = 0;
+    }
+
+
 }

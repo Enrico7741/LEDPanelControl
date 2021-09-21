@@ -12,6 +12,7 @@
 class SceneCreator
 {
 public:
+    SceneCreator();
     Scene* scene;
     void createMarioKartScene();
 
