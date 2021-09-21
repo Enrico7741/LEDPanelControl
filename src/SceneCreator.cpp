@@ -94,7 +94,7 @@ void SceneCreator::createMarioKartScene()
     }
 
     Tunnel tunnel;
-    Magick::Image tunnelImage("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigClosed.png");
+    Magick::Image tunnelImage("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/tunnel.png");
     for (size_t y = 0; y < 18; ++y)
     {
         for (size_t x = 0; x < 14; ++x)
