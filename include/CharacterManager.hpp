@@ -4,25 +4,28 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef SCENECREATOR_HPP
-#define SCENECREATOR_HPP
+#ifndef CHARACTERMANAGER_HPP
+#define CHARACTERMANAGER_HPP
 
 #include "Drawer.hpp"
-#include "Scene.hpp"
 #include "Drawable.hpp"
 
-#include <string>
-#include <vector>
-
-class SceneCreator
+class CharacterManager
 {
 public:
-    SceneCreator();
-    Scene* scene;
-    void createMarioKartScene();
-
+    CharacterManager(Drawer* drawer, Drawable mario) : mario{mario} {this->drawer = drawer;};
+    void redraw();
+    
 private:
-    Drawable readSprite(const std::string& path);
+    Drawer* drawer;
+    
+    Drawable mario;
+
+    const int lowerLimit = 25;
+    const int upperLimit = 10;
+
+    int posX = 0;
+    int posY = upperLimit;
 };
 
 #endif

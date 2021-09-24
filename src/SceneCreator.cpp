@@ -18,133 +18,38 @@ SceneCreator::SceneCreator()
 
 void SceneCreator::createMarioKartScene()
 {
-    Frame background;
-    Magick::Image bg("/home/pi/Documents/LEDPanelControl/bin/sprites/backgrounds/background.png");
-    for (size_t y = 0; y < 64; ++y)
+    auto drawer = new Drawer();
+    auto background = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/backgrounds/background.png");
+    auto clouds = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/clouds/clouds.png");
+    auto mario = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/mario.png");
+    auto plantBigOpen = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigOpen.png");
+    auto plantBigClosed = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigClosed.png");
+    auto tunnel = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/tunnel.png");
+    auto plantSmallOpen = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallOpen.png");
+    auto plantSmallClosed = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallClosed.png");
+
+    this->scene = new Scene(drawer, new BackgroundManager(drawer, background), new CloudManager(drawer, clouds), new CharacterManager(drawer, mario), new BottomMiscManager(drawer, plantBigOpen, plantBigClosed), new TopMiscManager(drawer, tunnel, plantSmallOpen, plantSmallClosed));
+}
+
+Drawable SceneCreator::readSprite(const std::string& path)
+{
+    std::vector<std::vector<Pixel>> pixels;
+    Magick::Image image(path);
+    for (size_t x = 0; x < image.baseColumns(); x++)
     {
-        for (size_t x = 0; x < 64; ++x)
+        std::vector<Pixel> pixelColumn;
+        for (size_t y = 0; y < image.baseRows(); y++)
         {
-            const Magick::Color &c = bg.pixelColor(x, y);
+            const Magick::Color &c = image.pixelColor(x, y);
             if (c.alphaQuantum() < 256)
             {
                 Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
-                ScaleQuantumToChar(c.blueQuantum())};      
-                background.pixel[x][y] = p;
+                ScaleQuantumToChar(c.blueQuantum())};
+                pixelColumn.push_back(p);
             }
         }
+        pixels.push_back(pixelColumn);
     }
 
-    Frame clouds;
-    Magick::Image cloud("/home/pi/Documents/LEDPanelControl/bin/sprites/clouds/clouds.png");
-    for (size_t y = 0; y < 64; ++y)
-    {
-        for (size_t x = 0; x < 64; ++x)
-        {
-            const Magick::Color &c = cloud.pixelColor(x, y);
-            if (c.alphaQuantum() < 256)
-            {
-                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
-                ScaleQuantumToChar(c.blueQuantum())};      
-                clouds.pixel[x][y] = p;
-            }
-        }
-    }
-
-    CharacterFrame marioFrame;
-    Magick::Image mario("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/mario.png");
-    for (size_t y = 0; y < 30; ++y)
-    {
-        for (size_t x = 0; x < 28; ++x)
-        {
-            const Magick::Color &c = mario.pixelColor(x, y);
-            if (c.alphaQuantum() < 256)
-            {
-                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
-                ScaleQuantumToChar(c.blueQuantum())};    
-                marioFrame.pixel[x][y] = p;
-            }
-        }
-    }
-
-    PlantBig plantBigOpen;
-    Magick::Image pbOpen("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigOpen.png");
-    for (size_t y = 0; y < 12; ++y)
-    {
-        for (size_t x = 0; x < 11; ++x)
-        {
-            const Magick::Color &c = pbOpen.pixelColor(x, y);
-            if (c.alphaQuantum() < 256)
-            {
-                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
-                ScaleQuantumToChar(c.blueQuantum())};    
-                plantBigOpen.pixel[x][y] = p;
-            }
-        }
-    }
-
-    PlantBig plantBigClosed;
-    Magick::Image pbClosed("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigClosed.png");
-    for (size_t y = 0; y < 12; ++y)
-    {
-        for (size_t x = 0; x < 11; ++x)
-        {
-            const Magick::Color &c = pbClosed.pixelColor(x, y);
-            if (c.alphaQuantum() < 256)
-            {
-                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
-                ScaleQuantumToChar(c.blueQuantum())};    
-                plantBigClosed.pixel[x][y] = p;
-            }
-        }
-    }
-
-    Tunnel tunnel;
-    Magick::Image tunnelImage("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/tunnel.png");
-    for (size_t y = 0; y < 18; ++y)
-    {
-        for (size_t x = 0; x < 14; ++x)
-        {
-            const Magick::Color &c = tunnelImage.pixelColor(x, y);
-            if (c.alphaQuantum() < 256)
-            {
-                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
-                ScaleQuantumToChar(c.blueQuantum())};    
-                tunnel.pixel[x][y] = p;
-            }
-        }
-    }
-
-PlantSmall smallPlant;
-    Magick::Image smallPlantImage("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallOpen.png");
-    for (size_t y = 0; y < 11; ++y)
-    {
-        for (size_t x = 0; x < 11; ++x)
-        {
-            const Magick::Color &c = smallPlantImage.pixelColor(x, y);
-            if (c.alphaQuantum() < 256)
-            {
-                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
-                ScaleQuantumToChar(c.blueQuantum())};    
-                smallPlant.pixel[x][y] = p;
-            }
-        }
-    }
-
-PlantSmall smallPlantClosed;
-    Magick::Image smallPlantClosedImage("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallClosed.png");
-    for (size_t y = 0; y < 11; ++y)
-    {
-        for (size_t x = 0; x < 11; ++x)
-        {
-            const Magick::Color &c = smallPlantClosedImage.pixelColor(x, y);
-            if (c.alphaQuantum() < 256)
-            {
-                Pixel p{ScaleQuantumToChar(c.redQuantum()), ScaleQuantumToChar(c.greenQuantum()), 
-                ScaleQuantumToChar(c.blueQuantum())};    
-                smallPlantClosed.pixel[x][y] = p;
-            }
-        }
-    }
-
-    this->scene = new Scene(new Background(background), new Clouds(clouds), new Mario(marioFrame), new BottomMisc(plantBigOpen, plantBigClosed), new TopMisc(tunnel, smallPlant, smallPlantClosed));
+    return Drawable(pixels);
 }

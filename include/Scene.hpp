@@ -7,32 +7,30 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "Background.hpp"
-#include "Clouds.hpp"
-#include "Mario.hpp"
-#include "BottomMisc.hpp"
-#include "TopMisc.hpp"
+#include "Drawer.hpp"
+#include "BackgroundManager.hpp"
+#include "CloudManager.hpp"
+#include "CharacterManager.hpp"
+#include "BottomMiscManager.hpp"
+#include "TopMiscManager.hpp"
 
-#include <stdint.h>
 #include <array>
+#include <stdint.h>
 
 class Scene
 {
 public:
-    Scene(Background* background, Clouds* clouds, Mario* character, BottomMisc* bottomMisc, TopMisc* topMisc);
-    Frame getNextFrame();
+    Scene(Drawer* drawer, BackgroundManager* background, CloudManager* clouds, CharacterManager* character, BottomMiscManager* bottomMisc, TopMiscManager* topMisc);
+    Frame& getNextFrame();
+
 private:
-    Frame frame;
-    Background* background;
-    Clouds* clouds;
-    Mario* character;
-    BottomMisc* bottomMisc;
-    TopMisc* topMisc;
-    void drawBackground();
-    void drawClouds();
-    void drawTopMisc();
-    void drawCharacter();
-    void drawBottomMisc();
+    Drawer* drawer;
+
+    BackgroundManager* background;
+    CloudManager* clouds;
+    CharacterManager* character;
+    BottomMiscManager* bottomMisc;
+    TopMiscManager* topMisc;
 };
 
 #endif

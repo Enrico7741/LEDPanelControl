@@ -4,25 +4,23 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef SCENECREATOR_HPP
-#define SCENECREATOR_HPP
+#ifndef BACKGROUNDMANAGER_HPP
+#define BACKGROUNDMANAGER_HPP
 
 #include "Drawer.hpp"
-#include "Scene.hpp"
 #include "Drawable.hpp"
 
-#include <string>
-#include <vector>
-
-class SceneCreator
+class BackgroundManager
 {
 public:
-    SceneCreator();
-    Scene* scene;
-    void createMarioKartScene();
-
+    BackgroundManager(Drawer* drawer, Drawable background) : background{background} {this->drawer = drawer;};
+    void redraw();
+    
 private:
-    Drawable readSprite(const std::string& path);
+    Drawer* drawer;
+    
+    Drawable background;
+    int backgroundShift = 0;
 };
 
 #endif

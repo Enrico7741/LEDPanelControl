@@ -4,18 +4,9 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef BACKGROUND_HPP
-#define BACKGROUND_HPP
+#include "CharacterManager.hpp"
 
-#include "IDrawable.hpp"
-
-class Background
+void CharacterManager::redraw()
 {
-public:
-    Background(Frame background);
-    void redraw(Frame &frame);
-private:
-    Frame background;
-};
-
-#endif
+    drawer->draw(mario, posX, posY);
+}

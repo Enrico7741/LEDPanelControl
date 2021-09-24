@@ -9,8 +9,9 @@
 #include <cstring>
 #include <iostream>
 
-Scene::Scene(Background* background, Clouds* clouds, Mario* character, BottomMisc* bottomMisc, TopMisc* topMisc)
+Scene::Scene(Drawer* drawer, BackgroundManager* background, CloudManager* clouds, CharacterManager* character, BottomMiscManager* bottomMisc, TopMiscManager* topMisc)
 {
+    this->drawer = drawer;
     this->background = background;
     this->clouds = clouds;
     this->character = character;
@@ -18,38 +19,13 @@ Scene::Scene(Background* background, Clouds* clouds, Mario* character, BottomMis
     this->topMisc = topMisc;
 }
 
-void Scene::drawBackground()
+Frame& Scene::getNextFrame()
 {
-    background->redraw(frame);
-}
-
-void Scene::drawClouds()
-{
-    clouds->redraw(frame);
-}
-
-void Scene::drawTopMisc()
-{
-    topMisc->redraw(frame);
-}
-
-void Scene::drawCharacter()
-{
-    character->redraw(frame);
-}
-
-void Scene::drawBottomMisc()
-{
-    bottomMisc->redraw(frame);
-}
-
-Frame Scene::getNextFrame()
-{
-    drawBackground();
-    drawClouds();
-    drawTopMisc();
-    drawCharacter();
-    drawBottomMisc();
+    background->redraw();
+    clouds->redraw();
+    topMisc->redraw();
+    character->redraw();
+    bottomMisc->redraw();
     
-    return frame;
+    return drawer->getCurrentFrame();
 }

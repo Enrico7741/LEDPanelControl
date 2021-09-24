@@ -9,8 +9,6 @@
 #include <sys/time.h>
 #include <math.h>
 
-#include "Drawable.hpp"
-
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -122,21 +120,26 @@ void Panel::run(SceneCreator& sceneCreator)
 
         while(true)
         {
-            displayFrame(sceneCreator);
-            frame = matrix->SwapOnVSync(frame);
-            std::this_thread::sleep_for(50ms);
+std::cout << "1" << std::endl;
+        displayFrame(sceneCreator);
+ std::cout << "2" << std::endl;      
+ frame = matrix->SwapOnVSync(frame);
+std::cout << "3" << std::endl;
+        std::this_thread::sleep_for(40ms);
+
         }
 
 }
 
 void Panel::displayFrame(SceneCreator& sceneCreator)
 {
-    const auto f = sceneCreator.scene->getNextFrame();
+    const auto f = sceneCreator.cene->getNextFrame();
     for (size_t y = 0; y < 64; ++y)
     {
         for (size_t x = 0; x < 64; ++x)
         {
             frame->SetPixel(x,y, f.pixel[x][y].R, f.pixel[x][y].G, f.pixel[x][y].B);
+            //frame->SetPixel(x, y, 100, 100, 100);
         }
     }
 }

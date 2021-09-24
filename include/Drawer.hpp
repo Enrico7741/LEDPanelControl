@@ -4,18 +4,20 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef CLOUDS_HPP
-#define CLOUDS_HPP
+#ifndef DRAWER_HPP
+#define DRAWER_HPP
 
-#include "IDrawable.hpp"
+#include "Drawable.hpp"
 
-class Clouds
+class Drawer
 {
 public:
-    Clouds(Frame clouds);
-    void redraw(Frame &frame);
+    Frame& getCurrentFrame();
+    void draw(Drawable& sprite, int xPos, int yPos);
+    void draw(Drawable& sprite, int shift);
+
 private:
-    Frame clouds;
+    Frame frame;
 };
 
 #endif

@@ -4,25 +4,26 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef SCENECREATOR_HPP
-#define SCENECREATOR_HPP
+#ifndef CLOUDMANAGER_HPP
+#define CLOUDMANAGER_HPP
 
 #include "Drawer.hpp"
-#include "Scene.hpp"
 #include "Drawable.hpp"
 
-#include <string>
-#include <vector>
-
-class SceneCreator
+class CloudManager
 {
 public:
-    SceneCreator();
-    Scene* scene;
-    void createMarioKartScene();
-
+    CloudManager(Drawer* drawer, Drawable clouds) : clouds{clouds} {this->drawer = drawer;};
+    void redraw();
+    
 private:
-    Drawable readSprite(const std::string& path);
+    Drawer* drawer;
+    
+    Drawable clouds;
+    int framesUntilShift = 20;
+    int cloudShift = 0;
+
+    void adjustCounters();
 };
 
 #endif

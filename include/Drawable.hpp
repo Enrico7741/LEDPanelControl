@@ -4,9 +4,10 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef IDRAWABLE_HPP
-#define IDRAWABLE_HPP
+#ifndef DRAWABLE_HPP
+#define DRAWABLE_HPP
 
+#include <vector>
 #include <stdint.h>
 #include <array>
 
@@ -22,24 +23,15 @@ struct Frame
   std::array<std::array<Pixel, 64>, 64> pixel{};
 };
 
-struct CharacterFrame
+class Drawable
 {
-  std::array<std::array<Pixel, 30>, 28> pixel{};
+public:
+  Drawable(std::vector<std::vector<Pixel>> pixel) : pixel{pixel} {};
+  const std::vector<std::vector<Pixel>>& getPixels() const { return pixel; }
+  int width() const { return pixel.size(); }
+  int height() const { return pixel[0].size(); }
+
+private:
+  std::vector<std::vector<Pixel>> pixel;
 };
-
-struct PlantBig
-{
-  std::array<std::array<Pixel, 12>, 11> pixel{};
-};
-
-struct PlantSmall
-{
-  std::array<std::array<Pixel, 11>, 11> pixel{};
-};
-
-
-struct Tunnel {
-  std::array<std::array<Pixel, 18>, 14> pixel{};
-};
-
 #endif
