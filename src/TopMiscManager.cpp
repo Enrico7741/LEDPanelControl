@@ -6,37 +6,28 @@
 
 #include "TopMiscManager.hpp"
 
-void TopMiscManager::redraw()
+TopMiscManager::TopMiscManager(Drawer* drawer, Tunnel tunnel, Plant plant) : tunnel{tunnel}, plant{plant}
 {
-    drawer->draw(tunnel, tunnelX, tunnelY);
-
-    auto& plant = isOpen ? plantOpen : plantClosed;
-    drawer->draw(plant, plantX, plantY);
-
-    adjustCounters();
+    this->drawer = drawer;
+    this->plant.init(20);
+    this->tunnel.init(12);
 }
 
-void TopMiscManager::adjustCounters()
+void TopMiscManager::redraw()
 {
-    tunnelX--;
-    if (tunnelX < -16)
+    drawer->draw(tunnel.getSprite(), tunnel.getXPos(), tunnel.getYPos());
+
+    drawer->draw(plant.getSprite(), plant.getXPos(), plant.getYPos());
+
+    plant.step();
+    if(plant.isOffScreen())
     {
-        tunnelX = 63;
+        plant.reset();
     }
 
-    plantX--;
-    if (plantX < -16)
+    tunnel.step();
+    if(tunnel.isOffScreen())
     {
-        plantX = 63;
-    }
-
-    if(framesUntilSwitch == 0)
-    {
-        isOpen = !isOpen;
-        framesUntilSwitch = 5;
-    }
-    else
-    {
-        framesUntilSwitch--;
+        tunnel.reset();
     }
 }

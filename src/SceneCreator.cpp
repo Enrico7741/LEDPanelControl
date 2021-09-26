@@ -6,6 +6,9 @@
 
 #include "SceneCreator.hpp"
 
+#include "Plant.hpp"
+#include "Tunnel.hpp"
+
 #include <Magick++.h>
 #include <magick/image.h>
 
@@ -19,16 +22,33 @@ SceneCreator::SceneCreator()
 void SceneCreator::createMarioKartScene()
 {
     auto drawer = new Drawer();
+
     auto background = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/backgrounds/background.png");
     auto clouds = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/clouds/clouds.png");
-    auto mario = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/mario.png");
-    auto plantBigOpen = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigOpen.png");
-    auto plantBigClosed = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigClosed.png");
-    auto tunnel = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/tunnel.png");
-    auto plantSmallOpen = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallOpen.png");
-    auto plantSmallClosed = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallClosed.png");
 
-    this->scene = new Scene(drawer, new BackgroundManager(drawer, background), new CloudManager(drawer, clouds), new CharacterManager(drawer, mario), new BottomMiscManager(drawer, plantBigOpen, plantBigClosed), new TopMiscManager(drawer, tunnel, plantSmallOpen, plantSmallClosed));
+    auto mario = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/mario.png");
+    auto luigi = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/luigi.png");
+    auto peach = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/peach.png");
+    auto bowser = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/bowser.png");
+    auto yoshi = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/yoshi.png");
+    auto toad = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/toad.png");
+    auto koopa = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/koopa.png");
+    auto donkey = readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/drivers/donkey.png");
+
+    auto bigPlant = Plant(readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigOpen.png"),
+                        readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantBigClosed.png"));
+
+    auto tunnel = Tunnel(readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/tunnel.png"));
+
+    auto smallPlant = Plant(readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallOpen.png"), 
+                            readSprite("/home/pi/Documents/LEDPanelControl/bin/sprites/misc/plantSmallClosed.png"));
+
+    this->scene = new Scene(drawer, 
+                            new BackgroundManager(drawer, background), 
+                            new CloudManager(drawer, clouds), 
+                            new CharacterManager(drawer, mario), 
+                            new BottomMiscManager(drawer, bigPlant), 
+                            new TopMiscManager(drawer, tunnel, smallPlant));
 }
 
 Drawable SceneCreator::readSprite(const std::string& path)

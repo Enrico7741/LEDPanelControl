@@ -4,24 +4,30 @@
 // Licensed under the MIT License
 //--------------------------------------------------------------------------------------------------
 
-#ifndef BOTTOMMISCMANAGER_HPP
-#define BOTTOMMISCMANAGER_HPP
+#ifndef TUNNEL_HPP
+#define TUNNEL_HPP
 
-#include "Drawer.hpp"
 #include "Drawable.hpp"
-#include "Plant.hpp"
 
-class BottomMiscManager
+class Tunnel
 {
 public:
-    BottomMiscManager(Drawer* drawer, Plant plant);
-    void redraw();
+    Tunnel(Drawable tunnel) : tunnel{tunnel} {};
+    void init(int yBaseLine);
+    Drawable& getSprite();
+    int getXPos();
+    int getYPos();
+    void step();
+    bool isOffScreen();
+    void reset();
 
 private:
-    Drawer* drawer;
-    Plant plant;
-    bool isOnScreen = true;
-    int reappearDelay = 0;
+    Drawable tunnel;
+
+    int yBaseLine = 0;
+
+    int x = 63;
+    int y = 0;
 };
 
 #endif

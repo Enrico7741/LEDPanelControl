@@ -124,7 +124,7 @@ void Panel::run(SceneCreator& sceneCreator)
         {
             displayFrame(sceneCreator);
             frame = matrix->SwapOnVSync(frame);
-            std::this_thread::sleep_for(50ms);
+            std::this_thread::sleep_for(40ms);
         }
 
 }

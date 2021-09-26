@@ -25,7 +25,7 @@ void CloudManager::adjustCounters()
             cloudShift = 0;
         }
 
-        framesUntilShift = 20;
+        framesUntilShift = 23;
     }
     else
     {

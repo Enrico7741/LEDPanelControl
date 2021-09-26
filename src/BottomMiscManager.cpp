@@ -6,30 +6,35 @@
 
 #include "BottomMiscManager.hpp"
 
-#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+BottomMiscManager::BottomMiscManager(Drawer* drawer, Plant plant) : plant{plant}
+{
+    this->drawer = drawer;
+    this->plant.init(50);
+    srand((unsigned) time(0));
+}
 
 void BottomMiscManager::redraw()
 {
-    auto& plant = isOpen ? plantBigOpen : plantBigClosed;
-    drawer->draw(plant, posX, posY);
-    adjustCounters();
-}
-
-void BottomMiscManager::adjustCounters()
-{
-    if(framesUntilSwitch == 0)
+    if (isOnScreen)
     {
-        isOpen = !isOpen;
-        framesUntilSwitch = 5;
+        drawer->draw(plant.getSprite(), plant.getXPos(), plant.getYPos());
+        plant.step();
+        if(plant.isOffScreen())
+        {
+            isOnScreen = false;
+            reappearDelay = (rand() % 10);
+        }
     }
     else
     {
-        framesUntilSwitch--;
-    }
-
-    posX--;
-    if (posX < -15)
-    {
-        posX = 63;
+        reappearDelay--;
+        if(reappearDelay <= 0)
+        {
+            isOnScreen = true;
+            plant.reset();
+        }
     }
 }
